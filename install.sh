@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # MoonTrader Core auto-installer for Ubuntu 22.04+ x86_64 VPS.
-# Official guide:
-# https://docs.moontrader.com/ru/ustanovka-yadra-linux-vps
+# MoonTrader website:
+# https://moontrader.com
 
 set -Eeuo pipefail
 
