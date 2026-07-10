@@ -2,13 +2,18 @@
 
 [English](#english) | [Русский](#русский)
 
+Official MoonTrader website: [moontrader.com](https://moontrader.com)  
 Contact: Telegram [@Ruzor](https://t.me/Ruzor)
+
+Unofficial project. This installer is not an official MoonTrader installation script. It was created by the author for personal use.
+
+Неофициальный проект. Это не официальный скрипт установки MoonTrader; он сделан автором для собственного использования.
 
 ## English
 
 Automatic MoonTrader Core installer for Ubuntu 22.04+ x86_64 VPS.
 
-The script follows the official MoonTrader Linux VPS guide: it updates the system, installs required libraries, creates compatibility files for `libtommath.so.0` and `libncurses.so.5`, downloads the x86-64 archive, unpacks the core, and starts `./MTCore` inside `tmux`.
+The script automates the manual Linux VPS setup flow: it updates the system, installs required libraries, creates compatibility files for `libtommath.so.0` and `libncurses.so.5`, downloads the x86-64 archive, unpacks the core, and starts `./MTCore` inside `tmux`.
 
 After installation, the script creates a systemd service. This means MTCore will automatically start again inside the `mt` tmux session after a VPS reboot.
 
@@ -106,14 +111,14 @@ bash uninstall.sh --purge-files
 
 - The script is intended only for Ubuntu 22.04+ x86_64.
 - The script does not store or request MoonTrader API keys.
-- The script downloads the official MoonTrader archive from the URL used in the documentation.
+- The script downloads the MoonTrader archive from MoonTrader CDN.
 - If you close SSH after installation, reconnect with `tmux a -t mt`.
 
 ## Русский
 
 Автоматическая установка ядра MoonTrader на Ubuntu 22.04+ x86_64 VPS.
 
-Скрипт повторяет шаги из официальной инструкции MoonTrader для Linux VPS: обновляет систему, ставит нужные библиотеки, создает совместимые файлы `libtommath.so.0` и `libncurses.so.5`, скачивает x86-64 архив, распаковывает ядро и запускает `./MTCore` внутри `tmux`.
+Скрипт автоматизирует ручную установку на Linux VPS: обновляет систему, ставит нужные библиотеки, создает совместимые файлы `libtommath.so.0` и `libncurses.so.5`, скачивает x86-64 архив, распаковывает ядро и запускает `./MTCore` внутри `tmux`.
 
 После установки создается systemd-сервис, поэтому после перезапуска VPS ядро снова стартует в `tmux`-сессии `mt`.
 
@@ -211,7 +216,7 @@ bash uninstall.sh --purge-files
 
 - Скрипт рассчитан только на Ubuntu 22.04+ x86_64.
 - Скрипт не хранит и не запрашивает API-ключи MoonTrader.
-- Скрипт скачивает официальный архив MoonTrader по адресу из документации.
+- Скрипт скачивает архив MoonTrader с CDN MoonTrader.
 - Если после установки вы закрыли SSH, вернуться к ядру можно командой `tmux a -t mt`.
 
 ## License
