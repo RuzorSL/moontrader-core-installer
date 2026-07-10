@@ -16,7 +16,7 @@ Contact: Telegram [@Ruzor](https://t.me/Ruzor)
 
 ### Требования
 
-- Ubuntu x86_64/amd64 VPS.
+- Ubuntu x86_64 VPS.
 - Пользователь с `sudo` или запуск от `root`.
 - systemd.
 - Доступ в интернет для скачивания архива MoonTrader.
@@ -88,67 +88,6 @@ sudo systemctl restart moontrader-core.service
 sudo systemctl stop moontrader-core.service
 ```
 
-### Полезные варианты запуска
-
-Не делать `apt upgrade`, только `apt update` и установку зависимостей:
-
-```bash
-bash install.sh --skip-upgrade
-```
-
-Установить в другую папку:
-
-```bash
-bash install.sh --dir /opt/MoonTrader
-```
-
-Запускать ядро от конкретного пользователя:
-
-```bash
-bash install.sh --user ubuntu
-```
-
-Скачать и распаковать ядро заново:
-
-```bash
-bash install.sh --force-reinstall
-```
-
-Установить, но не запускать ядро сразу:
-
-```bash
-bash install.sh --no-start
-```
-
-Запустить ядро, но не открывать `tmux` автоматически:
-
-```bash
-bash install.sh --no-attach
-```
-
-### Переменные окружения
-
-Можно настроить установку через переменные:
-
-```bash
-MOONTRADER_DIR=/opt/MoonTrader \
-RUN_USER=ubuntu \
-TMUX_SESSION=mt \
-SERVICE_NAME=moontrader-core \
-bash install.sh
-```
-
-Доступные переменные:
-
-| Переменная | Значение по умолчанию | Назначение |
-| --- | --- | --- |
-| `MOONTRADER_DIR` | `~/MoonTrader` | Папка установки |
-| `RUN_USER` | текущий пользователь | Пользователь, от которого запускается `MTCore` |
-| `TMUX_SESSION` | `mt` | Имя `tmux`-сессии |
-| `SERVICE_NAME` | `moontrader-core` | Имя systemd-сервиса |
-| `DO_SYSTEM_UPGRADE` | `1` | Делать `apt upgrade`; поставьте `0`, чтобы пропустить |
-| `FORCE_REINSTALL` | `0` | Скачать и распаковать ядро заново |
-
 ### Удаление
 
 Остановить ядро, отключить автозапуск и удалить systemd-сервис:
@@ -167,7 +106,7 @@ bash uninstall.sh --purge-files
 
 ### Что важно знать
 
-- Скрипт рассчитан только на Ubuntu x86_64/amd64.
+- Скрипт рассчитан только на Ubuntu x86_64.
 - Скрипт не хранит и не запрашивает API-ключи MoonTrader.
 - Скрипт скачивает официальный архив MoonTrader по адресу из документации.
 - Если после установки вы закрыли SSH, вернуться к ядру можно командой `tmux a -t mt`.
@@ -185,7 +124,7 @@ Official guide: <https://docs.moontrader.com/ru/ustanovka-yadra-linux-vps>
 
 ### Requirements
 
-- Ubuntu x86_64/amd64 VPS.
+- Ubuntu x86_64 VPS.
 - A user with `sudo`, or a `root` session.
 - systemd.
 - Internet access to download the MoonTrader archive.
@@ -257,67 +196,6 @@ Stop MTCore:
 sudo systemctl stop moontrader-core.service
 ```
 
-### Useful Options
-
-Skip `apt upgrade` and only run `apt update` plus dependency installation:
-
-```bash
-bash install.sh --skip-upgrade
-```
-
-Install to another directory:
-
-```bash
-bash install.sh --dir /opt/MoonTrader
-```
-
-Run MTCore as a specific user:
-
-```bash
-bash install.sh --user ubuntu
-```
-
-Download and unpack MTCore again:
-
-```bash
-bash install.sh --force-reinstall
-```
-
-Install only, without starting MTCore immediately:
-
-```bash
-bash install.sh --no-start
-```
-
-Start MTCore, but do not automatically attach to `tmux`:
-
-```bash
-bash install.sh --no-attach
-```
-
-### Environment Variables
-
-You can configure installation with environment variables:
-
-```bash
-MOONTRADER_DIR=/opt/MoonTrader \
-RUN_USER=ubuntu \
-TMUX_SESSION=mt \
-SERVICE_NAME=moontrader-core \
-bash install.sh
-```
-
-Available variables:
-
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `MOONTRADER_DIR` | `~/MoonTrader` | Installation directory |
-| `RUN_USER` | current user | User that runs `MTCore` |
-| `TMUX_SESSION` | `mt` | tmux session name |
-| `SERVICE_NAME` | `moontrader-core` | systemd service name |
-| `DO_SYSTEM_UPGRADE` | `1` | Run `apt upgrade`; set to `0` to skip |
-| `FORCE_REINSTALL` | `0` | Download and unpack MTCore again |
-
 ### Uninstall
 
 Stop MTCore, disable autostart, and remove the systemd service:
@@ -336,7 +214,7 @@ bash uninstall.sh --purge-files
 
 ### Notes
 
-- The script is intended only for Ubuntu x86_64/amd64.
+- The script is intended only for Ubuntu x86_64.
 - The script does not store or request MoonTrader API keys.
 - The script downloads the official MoonTrader archive from the URL used in the documentation.
 - If you close SSH after installation, reconnect with `tmux a -t mt`.
