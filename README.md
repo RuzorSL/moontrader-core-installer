@@ -12,8 +12,6 @@ The script follows the official MoonTrader Linux VPS guide: it updates the syste
 
 After installation, the script creates a systemd service. This means MTCore will automatically start again inside the `mt` tmux session after a VPS reboot.
 
-Official guide: <https://docs.moontrader.com/ru/ustanovka-yadra-linux-vps>
-
 ### Requirements
 
 - Ubuntu 22.04+ x86_64 VPS.
@@ -118,8 +116,6 @@ bash uninstall.sh --purge-files
 Скрипт повторяет шаги из официальной инструкции MoonTrader для Linux VPS: обновляет систему, ставит нужные библиотеки, создает совместимые файлы `libtommath.so.0` и `libncurses.so.5`, скачивает x86-64 архив, распаковывает ядро и запускает `./MTCore` внутри `tmux`.
 
 После установки создается systemd-сервис, поэтому после перезапуска VPS ядро снова стартует в `tmux`-сессии `mt`.
-
-Официальная инструкция: <https://docs.moontrader.com/ru/ustanovka-yadra-linux-vps>
 
 ### Требования
 
