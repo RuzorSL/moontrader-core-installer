@@ -11,7 +11,7 @@ Unofficial project. This installer is not an official MoonTrader installation sc
 
 ## English
 
-Automatic MoonTrader Core installer for Ubuntu 22.04+ x86_64 VPS.
+Automatic MoonTrader Core installer for Ubuntu 22.04 x86_64 or newer VPS.
 
 The script automates the manual Linux VPS setup flow: it updates the system, installs required libraries, creates compatibility files for `libtommath.so.0` and `libncurses.so.5`, downloads the x86-64 archive, unpacks the core, and starts `./MTCore` inside `tmux`.
 
@@ -19,7 +19,7 @@ After installation, the script creates a systemd service. This means MTCore will
 
 ### Requirements
 
-- Ubuntu 22.04+ x86_64 VPS.
+- Ubuntu 22.04 x86_64 or newer VPS.
 - A user with `sudo`, or a `root` session.
 - systemd.
 - Internet access to download the MoonTrader archive.
@@ -109,14 +109,14 @@ bash uninstall.sh --purge-files
 
 ### Notes
 
-- The script is intended only for Ubuntu 22.04+ x86_64.
-- The script does not store or request MoonTrader API keys.
+- The script is intended only for Ubuntu 22.04 x86_64 or newer.
+- The script does not store or request exchange API keys, and does not request or store Moontrader license keys.
 - The script downloads the MoonTrader archive from MoonTrader CDN.
 - If you close SSH after installation, reconnect with `tmux a -t mt`.
 
 ## Русский
 
-Автоматическая установка ядра MoonTrader на Ubuntu 22.04+ x86_64 VPS.
+Автоматическая установка ядра MoonTrader на Ubuntu 22.04 x86_64 и выше.
 
 Скрипт автоматизирует ручную установку на Linux VPS: обновляет систему, ставит нужные библиотеки, создает совместимые файлы `libtommath.so.0` и `libncurses.so.5`, скачивает x86-64 архив, распаковывает ядро и запускает `./MTCore` внутри `tmux`.
 
@@ -124,7 +124,7 @@ bash uninstall.sh --purge-files
 
 ### Требования
 
-- Ubuntu 22.04+ x86_64 VPS.
+- Ubuntu 22.04 x86_64 и выше.
 - Пользователь с `sudo` или запуск от `root`.
 - systemd.
 - Доступ в интернет для скачивания архива MoonTrader.
@@ -214,8 +214,8 @@ bash uninstall.sh --purge-files
 
 ### Что важно знать
 
-- Скрипт рассчитан только на Ubuntu 22.04+ x86_64.
-- Скрипт не хранит и не запрашивает API-ключи MoonTrader.
+- Скрипт рассчитан только на Ubuntu 22.04 x86_64 и выше.
+- Скрипт не хранит и не запрашивает API-ключи биржи, а так же не запрашивает и не хранит ключи лицензий Moontrader.
 - Скрипт скачивает архив MoonTrader с CDN MoonTrader.
 - Если после установки вы закрыли SSH, вернуться к ядру можно командой `tmux a -t mt`.
 
