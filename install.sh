@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MoonTrader Core auto-installer for Ubuntu x86_64 VPS.
+# MoonTrader Core auto-installer for Ubuntu 22.04+ x86_64 VPS.
 # Official guide:
 # https://docs.moontrader.com/ru/ustanovka-yadra-linux-vps
 
@@ -35,7 +35,7 @@ trap cleanup EXIT
 
 usage() {
   cat <<'USAGE'
-MoonTrader Core auto-installer for Ubuntu x86_64 VPS.
+MoonTrader Core auto-installer for Ubuntu 22.04+ x86_64 VPS.
 
 Normal usage:
   bash install.sh
@@ -162,7 +162,7 @@ find_library_path() {
 }
 
 check_system() {
-  [[ "$(uname -m)" == "x86_64" ]] || die "This script supports only x86_64/amd64."
+  [[ "$(uname -m)" == "x86_64" ]] || die "This script supports only x86_64."
   command -v apt-get >/dev/null 2>&1 || die "Ubuntu with apt-get is required."
   command -v systemctl >/dev/null 2>&1 || die "systemd/systemctl is required."
 
@@ -170,7 +170,14 @@ check_system() {
     # shellcheck disable=SC1091
     . /etc/os-release
     if [[ "${ID:-}" != "ubuntu" && "${ALLOW_NON_UBUNTU:-0}" != "1" ]]; then
-      die "This script is intended for Ubuntu. Found: ${PRETTY_NAME:-unknown}. To force it, run: ALLOW_NON_UBUNTU=1 bash $0"
+      die "This script is intended for Ubuntu 22.04 or newer. Found: ${PRETTY_NAME:-unknown}. To force it, run: ALLOW_NON_UBUNTU=1 bash $0"
+    fi
+
+    if [[ "${ID:-}" == "ubuntu" ]]; then
+      local ubuntu_version="${VERSION_ID:-0}"
+      if [[ "$(printf '%s\n%s\n' "22.04" "$ubuntu_version" | sort -V | head -n 1)" != "22.04" ]]; then
+        die "This script supports Ubuntu 22.04 or newer. Found: ${PRETTY_NAME:-Ubuntu $ubuntu_version}."
+      fi
     fi
   fi
 
