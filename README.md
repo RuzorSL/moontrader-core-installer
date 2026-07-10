@@ -17,7 +17,14 @@
 
 ## Быстрая установка
 
-Скачайте репозиторий или один файл `install.sh`, затем запустите:
+Скачать установщик напрямую с GitHub и запустить:
+
+```bash
+wget -O install.sh https://raw.githubusercontent.com/RuzorSL/moontrader-core-installer/main/install.sh
+bash install.sh
+```
+
+Или скачайте репозиторий и запустите файл вручную:
 
 ```bash
 bash install.sh
