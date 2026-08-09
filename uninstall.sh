@@ -7,6 +7,7 @@ SERVICE_NAME="${SERVICE_NAME:-moontrader-core}"
 TMUX_SESSION="${TMUX_SESSION:-mt}"
 RUN_USER="${RUN_USER:-}"
 INSTALL_DIR="${MOONTRADER_DIR:-}"
+RUN_HOME=""
 PURGE_FILES=0
 
 log() {
@@ -26,11 +27,11 @@ Normal usage:
   bash uninstall.sh
 
 Options:
-  --dir /path/to/MoonTrader     Install directory. Default: ~/MoonTrader
+  --dir /path/to/directory      Install directory. Default: user's home directory
   --user ubuntu                 User that runs MTCore. Default: current user
   --session mt                  tmux session name. Default: mt
   --service moontrader-core     systemd service name. Default: moontrader-core
-  --purge-files                 Remove the MoonTrader directory too
+  --purge-files                 Remove a custom install directory; never removes a home directory
   -h, --help                    Show this help
 USAGE
 }
@@ -104,12 +105,11 @@ resolve_user_and_paths() {
 
   id "$RUN_USER" >/dev/null 2>&1 || die "User '$RUN_USER' was not found."
 
-  local run_home
-  run_home="$(getent passwd "$RUN_USER" | cut -d: -f6)"
-  [[ -n "$run_home" ]] || die "Could not detect home directory for user '$RUN_USER'."
+  RUN_HOME="$(getent passwd "$RUN_USER" | cut -d: -f6)"
+  [[ -n "$RUN_HOME" ]] || die "Could not detect home directory for user '$RUN_USER'."
 
   if [[ -z "$INSTALL_DIR" ]]; then
-    INSTALL_DIR="$run_home/MoonTrader"
+    INSTALL_DIR="$RUN_HOME"
   fi
 
   [[ "$INSTALL_DIR" == /* ]] || die "Install path must be absolute: $INSTALL_DIR"
@@ -118,12 +118,18 @@ resolve_user_and_paths() {
 }
 
 main() {
+  local files_result
+
   command -v systemctl >/dev/null 2>&1 || die "systemctl is required."
   if [[ $EUID -ne 0 ]]; then
     command -v sudo >/dev/null 2>&1 || die "sudo is required unless the script is run as root."
   fi
 
   resolve_user_and_paths
+
+  if [[ "$PURGE_FILES" == "1" && ( "$INSTALL_DIR" == "$RUN_HOME" || "$INSTALL_DIR" == "/" ) ]]; then
+    die "--purge-files cannot remove the user's home directory or '/'. MoonTrader files must be removed manually."
+  fi
 
   log "Stopping ${SERVICE_NAME}.service if it exists."
   if systemctl list-unit-files "${SERVICE_NAME}.service" >/dev/null 2>&1; then
@@ -145,8 +151,10 @@ main() {
   if [[ "$PURGE_FILES" == "1" ]]; then
     log "Removing MoonTrader directory: $INSTALL_DIR"
     as_root rm -rf "$INSTALL_DIR"
+    files_result="removed"
   else
     log "MoonTrader directory was kept: $INSTALL_DIR"
+    files_result="kept"
   fi
 
   cat <<DONE
@@ -155,12 +163,10 @@ Done.
 
 Autostart service removed: ${SERVICE_NAME}.service
 tmux session stopped:      ${TMUX_SESSION}
-MoonTrader directory:      ${INSTALL_DIR}
-
-To remove the MoonTrader directory too, run:
-  bash uninstall.sh --purge-files
+MoonTrader files:          ${files_result} in ${INSTALL_DIR}
 
 DONE
 }
 
 main "$@"
+
