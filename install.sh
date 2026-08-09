@@ -251,7 +251,7 @@ create_compat_links() {
 }
 
 download_and_install_core() {
-  local archive extract_dir core_path core_dir run_group
+  local archive run_group
   run_group="$(id -gn "$RUN_USER")"
 
   if [[ -x "$INSTALL_DIR/MTCore" && "$FORCE_REINSTALL" != "1" ]]; then
@@ -262,20 +262,13 @@ download_and_install_core() {
   log "Downloading MoonTrader Core x86_64."
   TMP_DIR="$(mktemp -d)"
   archive="$TMP_DIR/MoonTrader-linux-x86_64.tar.xz"
-  extract_dir="$TMP_DIR/extract"
-  mkdir -p "$extract_dir"
 
   wget -O "$archive" "$CORE_URL"
 
   log "Unpacking MTCore into $INSTALL_DIR."
-  tar -xJf "$archive" -C "$extract_dir"
-
-  core_path="$(find "$extract_dir" -type f -name MTCore | head -n 1)"
-  [[ -n "$core_path" ]] || die "MTCore file was not found in the archive."
-  core_dir="$(dirname "$core_path")"
-
   as_root mkdir -p "$INSTALL_DIR"
-  as_root cp -a "$core_dir"/. "$INSTALL_DIR"/
+  as_root tar -xJf "$archive" -C "$INSTALL_DIR"
+  [[ -f "$INSTALL_DIR/MTCore" ]] || die "MTCore was not unpacked directly into $INSTALL_DIR."
   as_root chown -R "$RUN_USER:$run_group" "$INSTALL_DIR"
   as_root chmod +x "$INSTALL_DIR/MTCore"
 }
@@ -298,7 +291,7 @@ RemainAfterExit=yes
 User=${RUN_USER}
 WorkingDirectory=${INSTALL_DIR}
 Environment=TERM=xterm-256color
-ExecStart=/bin/bash -lc '/usr/bin/tmux has-session -t ${TMUX_SESSION} 2>/dev/null || /usr/bin/tmux new-session -d -s ${TMUX_SESSION} ./MTCore'
+ExecStart=/bin/bash -c '/usr/bin/tmux has-session -t ${TMUX_SESSION} 2>/dev/null || /usr/bin/tmux new-session -d -s ${TMUX_SESSION} -c ${INSTALL_DIR} ./MTCore'
 ExecStop=/bin/bash -lc '/usr/bin/tmux has-session -t ${TMUX_SESSION} 2>/dev/null && /usr/bin/tmux send-keys -t ${TMUX_SESSION} C-c || true'
 ExecStopPost=/bin/bash -lc 'sleep 2; /usr/bin/tmux has-session -t ${TMUX_SESSION} 2>/dev/null && /usr/bin/tmux kill-session -t ${TMUX_SESSION} || true'
 
@@ -394,3 +387,4 @@ main() {
 }
 
 main "$@"
+
