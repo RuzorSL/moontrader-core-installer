@@ -206,6 +206,7 @@ resolve_user_and_paths() {
   fi
 
   [[ "$INSTALL_DIR" == /* ]] || die "Install path must be absolute: $INSTALL_DIR"
+  [[ "$INSTALL_DIR" != "/" ]] || die "The filesystem root '/' cannot be used as the install directory."
   [[ "$INSTALL_DIR" != *" "* ]] || die "Please use an install path without spaces for systemd: $INSTALL_DIR"
   [[ "$INSTALL_DIR" != *"%"* ]] || die "Install path must not contain the percent sign."
   [[ "$TMUX_SESSION" =~ ^[A-Za-z0-9_.-]+$ ]] || die "tmux session name may contain only letters, digits, '_', '-' or '.'."
@@ -266,10 +267,15 @@ download_and_install_core() {
   wget -O "$archive" "$CORE_URL"
 
   log "Unpacking MTCore into $INSTALL_DIR."
-  as_root mkdir -p "$INSTALL_DIR"
-  as_root tar -xJf "$archive" -C "$INSTALL_DIR"
+  if [[ ! -d "$INSTALL_DIR" ]]; then
+    as_root mkdir -p "$INSTALL_DIR"
+    as_root chown "$RUN_USER:$run_group" "$INSTALL_DIR"
+  fi
+  as_run_user test -w "$INSTALL_DIR" || die "Install directory is not writable by '$RUN_USER': $INSTALL_DIR"
+  chmod 0755 "$TMP_DIR"
+  chmod 0644 "$archive"
+  as_run_user tar -xJf "$archive" -C "$INSTALL_DIR"
   [[ -f "$INSTALL_DIR/MTCore" ]] || die "MTCore was not unpacked directly into $INSTALL_DIR."
-  as_root chown -R "$RUN_USER:$run_group" "$INSTALL_DIR"
   as_root chmod +x "$INSTALL_DIR/MTCore"
 }
 
