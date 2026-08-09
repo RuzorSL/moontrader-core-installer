@@ -41,7 +41,7 @@ Normal usage:
   bash install.sh
 
 Options:
-  --dir /path/to/MoonTrader     Install directory. Default: ~/MoonTrader
+  --dir /path/to/directory      Install directory. Default: user's home directory
   --user ubuntu                 User that should run MTCore. Default: current user
   --session mt                  tmux session name. Default: mt
   --service moontrader-core     systemd service name. Default: moontrader-core
@@ -202,7 +202,7 @@ resolve_user_and_paths() {
   [[ -n "$run_home" ]] || die "Could not detect home directory for user '$RUN_USER'."
 
   if [[ -z "$INSTALL_DIR" ]]; then
-    INSTALL_DIR="$run_home/MoonTrader"
+    INSTALL_DIR="$run_home"
   fi
 
   [[ "$INSTALL_DIR" == /* ]] || die "Install path must be absolute: $INSTALL_DIR"
