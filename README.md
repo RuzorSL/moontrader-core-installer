@@ -39,11 +39,13 @@ Or download the repository and run the file manually:
 bash install.sh
 ```
 
-By default, the core is installed to:
+By default, the core is installed directly in the selected user's home directory:
 
 ```text
-~/MoonTrader
+~
 ```
+
+For `root`, this is `/root`; for the `ubuntu` user, this is `/home/ubuntu`. Therefore, after logging in as that user, `./MTCore` starts the core directly.
 
 After installation, the script automatically opens `tmux` with:
 
@@ -99,13 +101,7 @@ Stop MTCore, disable autostart, and remove the systemd service:
 bash uninstall.sh
 ```
 
-The `~/MoonTrader` directory will be kept.
-
-Remove the service and the MoonTrader directory:
-
-```bash
-bash uninstall.sh --purge-files
-```
+MoonTrader files in the user's home directory will be kept. The uninstall helper never removes a user's home directory.
 
 ### Notes
 
@@ -144,11 +140,13 @@ bash install.sh
 bash install.sh
 ```
 
-По умолчанию ядро ставится в:
+По умолчанию ядро устанавливается непосредственно в домашнюю папку выбранного пользователя:
 
 ```text
-~/MoonTrader
+~
 ```
+
+Для `root` это `/root`, для пользователя `ubuntu` это `/home/ubuntu`. Поэтому после входа под этим пользователем команда `./MTCore` сразу запускает ядро.
 
 После установки скрипт автоматически откроет `tmux` с запущенным:
 
@@ -204,13 +202,7 @@ sudo systemctl stop moontrader-core.service
 bash uninstall.sh
 ```
 
-Папка `~/MoonTrader` при этом останется на месте.
-
-Удалить сервис и папку MoonTrader:
-
-```bash
-bash uninstall.sh --purge-files
-```
+Файлы MoonTrader в домашней папке пользователя останутся на месте. Скрипт удаления никогда не удаляет домашнюю папку пользователя.
 
 ### Что важно знать
 
@@ -222,3 +214,4 @@ bash uninstall.sh --purge-files
 ## License
 
 MIT. MoonTrader and its binary files are not included in this repository and belong to their respective rights holders.
+
