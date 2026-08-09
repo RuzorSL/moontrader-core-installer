@@ -7,9 +7,9 @@ Wants=network-online.target
 Type=oneshot
 RemainAfterExit=yes
 User=ubuntu
-WorkingDirectory=/home/ubuntu/MoonTrader
+WorkingDirectory=/home/ubuntu
 Environment=TERM=xterm-256color
-ExecStart=/bin/bash -c '/usr/bin/tmux has-session -t mt 2>/dev/null || /usr/bin/tmux new-session -d -s mt -c /home/ubuntu/MoonTrader ./MTCore'
+ExecStart=/bin/bash -c '/usr/bin/tmux has-session -t mt 2>/dev/null || /usr/bin/tmux new-session -d -s mt -c /home/ubuntu ./MTCore'
 ExecStop=/bin/bash -lc '/usr/bin/tmux has-session -t mt 2>/dev/null && /usr/bin/tmux send-keys -t mt C-c || true'
 ExecStopPost=/bin/bash -lc 'sleep 2; /usr/bin/tmux has-session -t mt 2>/dev/null && /usr/bin/tmux kill-session -t mt || true'
 
