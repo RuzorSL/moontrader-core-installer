@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# shellcheck source=../install.sh
+# shellcheck source=install.sh
 source "$REPO_ROOT/install.sh"
 
 TEST_DIR="$(mktemp -d)"
