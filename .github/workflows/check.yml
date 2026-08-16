@@ -13,8 +13,12 @@ jobs:
         run: |
           bash -n install.sh
           bash -n uninstall.sh
+          bash -n tests/test-extraction-ownership.sh
       - name: Run ShellCheck
         run: |
           sudo apt-get update
           sudo apt-get install -y shellcheck
-          shellcheck install.sh uninstall.sh
+          shellcheck install.sh uninstall.sh tests/test-extraction-ownership.sh
+      - name: Test safe archive extraction
+        run: sudo bash tests/test-extraction-ownership.sh
+

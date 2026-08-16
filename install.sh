@@ -251,6 +251,23 @@ create_compat_links() {
   as_root ldconfig
 }
 
+extract_core_archive() {
+  local archive="$1"
+  local destination="$2"
+
+  # The upstream archive may contain numeric owners from the build server and
+  # a top-level ./ entry. Never let tar replace the owner, group, permissions,
+  # or other metadata of an existing home directory during root installs.
+  as_run_user tar \
+    --extract \
+    --xz \
+    --file "$archive" \
+    --directory "$destination" \
+    --no-same-owner \
+    --no-same-permissions \
+    --no-overwrite-dir
+}
+
 download_and_install_core() {
   local archive run_group
   run_group="$(id -gn "$RUN_USER")"
@@ -274,7 +291,7 @@ download_and_install_core() {
   as_run_user test -w "$INSTALL_DIR" || die "Install directory is not writable by '$RUN_USER': $INSTALL_DIR"
   chmod 0755 "$TMP_DIR"
   chmod 0644 "$archive"
-  as_run_user tar -xJf "$archive" -C "$INSTALL_DIR"
+  extract_core_archive "$archive" "$INSTALL_DIR"
   [[ -f "$INSTALL_DIR/MTCore" ]] || die "MTCore was not unpacked directly into $INSTALL_DIR."
   as_root chmod +x "$INSTALL_DIR/MTCore"
 }
@@ -392,5 +409,8 @@ main() {
   start_core_and_attach
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi
+
 
