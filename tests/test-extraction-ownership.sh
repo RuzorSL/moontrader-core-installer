@@ -37,7 +37,7 @@ tar \
   --numeric-owner \
   .
 
-RUN_USER=root
+export RUN_USER=root
 before="$(stat -c '%u:%g:%a' "$TARGET_DIR")"
 extract_core_archive "$ARCHIVE" "$TARGET_DIR"
 after="$(stat -c '%u:%g:%a' "$TARGET_DIR")"

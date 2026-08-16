@@ -18,7 +18,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y shellcheck
-          shellcheck install.sh uninstall.sh tests/test-extraction-ownership.sh
+          shellcheck -x install.sh uninstall.sh tests/test-extraction-ownership.sh
       - name: Test safe archive extraction
         run: sudo bash tests/test-extraction-ownership.sh
 
